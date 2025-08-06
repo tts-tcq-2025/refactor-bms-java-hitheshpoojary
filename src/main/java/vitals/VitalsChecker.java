@@ -34,4 +34,17 @@ public abstract class VitalsChecker {
     }
     return true;
   }
+  
+private static void alert(String message)throws InterruptedException {
+    System.out.println(message)
+    for (int i = 0; i < 6; i++) {
+            System.out.print("\r* ");
+            Thread.sleep(1000);
+            System.out.print("\r *");
+            Thread.sleep(1000);
+        }  
+  
+}
+
+
 }
