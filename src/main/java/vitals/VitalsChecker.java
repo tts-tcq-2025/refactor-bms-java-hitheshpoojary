@@ -1,5 +1,5 @@
 package vitals;
-
+import vitals.Compute;
 
 public abstract class VitalsChecker {
   static boolean vitalsOk(float temperature, float pulseRate, float spo2) 
