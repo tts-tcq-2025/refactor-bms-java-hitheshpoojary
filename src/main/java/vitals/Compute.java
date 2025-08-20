@@ -7,6 +7,7 @@ public final class Compute {
     public static final float MAX_PULSE_RATE = 100;
     public static final float MIN_PULSE_RATE = 60;
     public static final float MIN_SPO2 = 90;
+    private static final float MAX_SPO2 = 100f;
     public static final float MAX_TEMP = 102;
     public static final float MIN_TEMP = 95;
 
