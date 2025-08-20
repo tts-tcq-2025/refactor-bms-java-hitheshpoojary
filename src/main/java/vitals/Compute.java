@@ -1,6 +1,8 @@
 package vitals;
 
 public final class Compute {
+    
+    public enum Status { BELOW_MIN, NEAR_MIN, NORMAL, NEAR_MAX, ABOVE_MAX }
 
     private Compute() {}
 
