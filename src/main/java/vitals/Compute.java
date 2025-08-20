@@ -22,6 +22,21 @@ public final class Compute {
         if (value >= max - tol) return Status.NEAR_MAX;
         return Status.NORMAL;
     }
+
+
+    public static Status tempStatus(float temperature) {
+        return evaluateRange(temperature, MIN_TEMP, MAX_TEMP);
+    }
+
+    public static Status pulseStatus(float pulseRate) {
+        return evaluateRange(pulseRate, MIN_PULSE_RATE, MAX_PULSE_RATE);
+    }
+
+    public static Status spo2Status(float spo2) {
+        return evaluateRange(spo2, MIN_SPO2, MAX_SPO2);
+    }
+
+    
     private static boolean isOutOfRange(float value, float min, float max) {
         return value < min || value > max;
     }
