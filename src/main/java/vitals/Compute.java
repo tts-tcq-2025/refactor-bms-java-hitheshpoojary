@@ -12,7 +12,16 @@ public final class Compute {
     private static final float MAX_SPO2 = 100f;
     public static final float MAX_TEMP = 102;
     public static final float MIN_TEMP = 95;
+    private static final float TOLERANCE_PCT = 0.015f;
 
+    private static Status evaluateRange(float value, float min, float max) {
+        final float tol = max * TOLERANCE_PCT; 
+        if (value < min) return Status.BELOW_MIN;
+        if (value <= min + tol) return Status.NEAR_MIN;
+        if (value > max) return Status.ABOVE_MAX;
+        if (value >= max - tol) return Status.NEAR_MAX;
+        return Status.NORMAL;
+    }
     private static boolean isOutOfRange(float value, float min, float max) {
         return value < min || value > max;
     }
