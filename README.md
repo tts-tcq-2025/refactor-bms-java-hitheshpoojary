@@ -8,28 +8,52 @@ Health Monitoring Systems
 
 ## Purpose
 
-Continuous monitoring of vital signs, such as respiration and heartbeat, plays a crucial role in early detection and prediction of conditions that may affect the wellbeing of a patient. 
+This project implements a vitals monitoring system for patients.
+It continuously checks whether vitals (temperature, pulse, and SPO2) are within safe ranges and reports their status.
 
 Monitoring requires accurate reading and thresholding of the vitals.
 
-## Issues
+## Features 
 
-- The code here has high complexity in a single function.
-- The code is not modular 
-- The tests are not complete - they do not cover all the needs of a consumer
+* Monitors Body Temperature, Pulse Rate, and SPO2.
+* Classifies vitals into categories:
+  - OK → Within the normal safe range
+  - NEAR_MIN / NEAR_MAX → Early warning zone (close to min or max)
+  - BELOW_MIN / ABOVE_MAX → Critical alert zone (beyond limits)
+* Provides Early Warnings to caregivers before an actual breach happens.
+  
+## Extension 1: Early Warning(Implemented)
 
-## Tasks
+Caregivers need early warnings to act in time, instead of waiting for critical alarms.
+We introduce a warning tolerance of 1.5% of the upper limit for each vital.
 
-1. Reduce the cyclomatic complexity.
-1. Separate pure functions from I/O
-1. Avoid duplication - functions that do nearly the same thing
-1. Complete the tests - cover all conditions. 
+1.Example: Body Temperature
+  Allowed range = 95°F – 102°F
+  Tolerance = 1.5% of upper limit (102) = 1.53°F
 
-## Self-evaluation
+  Warning Ranges:
+  95.0 – 96.53°F → Approaching Hypothermia
+  100.47 – 102°F → Approaching Hyperthermia
 
-How well does our code hold-out in the rapidly evolving [WHDS](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6111409/)?
-Can we add future functionality without disturbing existing features? Can we do it with low effort and high reliability?
+2.Example: Pulse Rate
+  Allowed range = 60 – 100 bpm
+  Tolerance = 1.5% of 100 = 1.5 bpm
+  Warning Ranges:
+  60.0 – 61.5 bpm → Approaching Bradycardia
+  98.5 – 100 bpm → Approaching Tachycardia
 
+3.Example: SPO2
+  Allowed range = 90% – 100%
+  Tolerance = 1.5% of 100 = 1.5%
+  Warning Ranges:
+  90.0 – 91.5% → Approaching Hypoxemia
+  98.5 – 100% → Approaching Hyperoxia
+
+## Tests
+
+  Covers classification into OK, NEAR_MIN, NEAR_MAX, BELOW_MIN, ABOVE_MAX.
+  Ensures Early Warning tolerance (1.5%) works for Temperature, Pulse, and SPO2.
+  
 ## The future
 
 - May need new vital signs
@@ -38,11 +62,3 @@ Can we add future functionality without disturbing existing features? Can we do 
 
 > Predicting the future requires Astrology!
 
-## Keep it simple and testable
-
-Shorten the Semantic distance
-
-- Procedural to express sequence
-- Functional to express relation between input and output
-- Object oriented to encapsulate state with actions
-- Aspect oriented to capture repeating aspects

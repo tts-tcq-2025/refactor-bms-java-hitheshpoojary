@@ -1,37 +1,28 @@
 package vitals;
-
+import vitals.Compute;
 
 public abstract class VitalsChecker {
-  static boolean vitalsOk(float temperature, float pulseRate, float spo2) 
-      throws InterruptedException {
-    if (temperature > 102 || temperature < 95) {
-      System.out.println("Temperature is critical!");
-      for (int i = 0; i < 6; i++) {
-        System.out.print("\r* ");
-        Thread.sleep(1000);
-        System.out.print("\r *");
-        Thread.sleep(1000);
-      }
-      return false;
-    } else if (pulseRate < 60 || pulseRate > 100) {
-      System.out.println("Pulse Rate is out of range!");
-      for (int i = 0; i < 6; i++) {
-        System.out.print("\r* ");
-        Thread.sleep(1000);
-        System.out.print("\r *");
-        Thread.sleep(1000);
-      }
-      return false;
-    } else if (spo2 < 90) {
-      System.out.println("Oxygen Saturation out of range!");
-      for (int i = 0; i < 6; i++) {
-        System.out.print("\r* ");
-        Thread.sleep(1000);
-        System.out.print("\r *");
-        Thread.sleep(1000);
-      }
-      return false;
+
+    static boolean vitalsOk(float temperature, float pulseRate, float spo2) throws InterruptedException {
+        boolean ok = true;
+
+        ok &= handle(VitalsMessages.Vital.TEMPERATURE, Compute.tempStatus(temperature));
+        ok &= handle(VitalsMessages.Vital.PULSE,       Compute.pulseStatus(pulseRate));
+        ok &= handle(VitalsMessages.Vital.SPO2,        Compute.spo2Status(spo2));
+
+        return ok;
     }
-    return true;
-  }
+
+    private static boolean handle(VitalsMessages.Vital vital, Compute.Status status) throws InterruptedException {
+        String msg = VitalsMessages.getMessage(vital, status);
+        if (msg != null) {
+            alert(msg);
+        }
+        // Only critical (below/above) fails overall check
+        return !(status == Compute.Status.BELOW_MIN || status == Compute.Status.ABOVE_MAX);
+    }
+
+    static void alert(String message) throws InterruptedException {
+        System.out.println(message);
+    }
 }
